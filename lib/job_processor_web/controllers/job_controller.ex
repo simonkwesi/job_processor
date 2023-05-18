@@ -2,12 +2,12 @@ defmodule JobProcessorWeb.JobController do
   use JobProcessorWeb, :controller
   alias JobProcessor.Task
 
-  def sort(conn, params = %{"tasks" => tasks, "format" => "bash"}) do
+  def sort(conn, _params = %{"tasks" => tasks, "format" => "bash"}) do
     sorted_tasks = Task.sort_tasks(tasks)
     text(conn, tasks_as_bash(sorted_tasks))
   end
 
-  def sort(conn, params = %{"tasks" => tasks_list}) do
+  def sort(conn, _params = %{"tasks" => tasks_list}) do
     sorted_tasks = Task.sort_tasks(tasks_list)
 
     json(conn, sorted_tasks)
@@ -16,7 +16,8 @@ defmodule JobProcessorWeb.JobController do
   def tasks_as_bash(tasks) do
     task_commands =
       tasks
-      |> Enum.map_join("\n",
+      |> Enum.map_join(
+        "\n",
         fn task ->
           task[:command] <> "\n"
         end
