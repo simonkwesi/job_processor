@@ -18,14 +18,9 @@ defmodule JobProcessorWeb.JobController do
       tasks
       |> Enum.map_join(
         "\n",
-        fn task ->
-          task[:command] <> "\n"
-        end
+        fn task -> task[:command] <> "\n" end
       )
 
-    res =
-      "#!/usr/bin/env bash" <>
-        "\n\n" <>
-        task_commands
+    "#!/usr/bin/env bash" <> "\n\n" <> task_commands
   end
 end
