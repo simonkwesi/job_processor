@@ -33,4 +33,4 @@ jobs:
     - name: Check code is formatted
       run: mix format --check-formatted
     - name: Run Tests
-      run: mix coveralls.json
+      run: mix test
