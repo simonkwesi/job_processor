@@ -32,7 +32,7 @@ defmodule JobProcessorWeb.JobControllerTest do
     %{"command" => "rm /tmp/file1", "name" => "task-4"}
   ]
 
-  @expected_bash_response "#!/usr/bin/env bash\n\ntouch /tmp/file1\n\necho 'Hello World!' > /tmp/file1\n\ncat /tmp/file1\n\nrm /tmp/file1\n"
+  @expected_bash_response "#!/usr/bin/env bash\n\ntouch /tmp/file1\necho 'Hello World!' > /tmp/file1\ncat /tmp/file1\nrm /tmp/file1"
 
   test "POST /sort", %{conn: conn} do
     conn = post(conn, ~p"/api/jobs/sort", @attrs)
