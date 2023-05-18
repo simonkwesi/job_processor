@@ -5,18 +5,20 @@ defmodule JobProcessor.Task do
   Then, it uses a breadth-first search to output the graph as a list of sorted tasks.
   """
   def sort_tasks(tasks) do
-    sorted_tasks = build_tasks_graph(tasks) |> bfs()
+    sorted_task_names = build_tasks_graph(tasks) |> bfs()
 
-    sorted_tasks(hash_from_tasks(tasks), sorted_tasks)
+    sorted_tasks(hash_from_tasks(tasks), sorted_task_names)
   end
 
-  defp build_tasks_graph(graph \\ Graph.new(type: :directed), [task | tasks]) do
-    graph =
-      graph
-      |> Graph.add_vertex(task["name"])
-      |> add_edges(task["name"], task["requires"])
+  defp build_tasks_graph(tasks) do
+    build_tasks_graph(Graph.new(type: :directed), tasks)
+  end
 
-    build_tasks_graph(graph, tasks)
+  defp build_tasks_graph(graph, [task | tasks]) do
+    graph
+    |> Graph.add_vertex(task["name"])
+    |> add_edges(task["name"], task["requires"])
+    |> build_tasks_graph(tasks)
   end
 
   defp build_tasks_graph(graph, []) do
@@ -52,7 +54,7 @@ defmodule JobProcessor.Task do
     [task_json | sorted_tasks(tasks_hash, task_names)]
   end
 
-  defp sorted_tasks(tasks_hash, []) do
+  defp sorted_tasks(_tasks_hash, []) do
     []
   end
 end
