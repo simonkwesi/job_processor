@@ -25,15 +25,22 @@ defmodule JobProcessorWeb.JobControllerTest do
     ]
   }
 
-  @expected_response [
+  @expected_json_response [
     %{"command" => "touch /tmp/file1", "name" => "task-1"},
     %{"command" => "echo 'Hello World!' > /tmp/file1", "name" => "task-3"},
     %{"command" => "cat /tmp/file1", "name" => "task-2"},
     %{"command" => "rm /tmp/file1", "name" => "task-4"}
   ]
 
-  test "POST /", %{conn: conn} do
-    conn = post(conn, ~p"/api/jobs", @attrs)
-    assert @expected_response = json_response(conn, 200)
+  @expected_bash_response "#!/usr/bin/env bash\n\ntouch /tmp/file1\n\necho 'Hello World!' > /tmp/file1\n\ncat /tmp/file1\n\nrm /tmp/file1\n"
+
+  test "POST /sort", %{conn: conn} do
+    conn = post(conn, ~p"/api/jobs/sort", @attrs)
+    assert @expected_json_response = json_response(conn, 200)
+  end
+
+  test "POST /sort with output format set to bash", %{conn: conn} do
+    conn = post(conn, ~p"/api/jobs/sort?format=bash", @attrs)
+    assert @expected_bash_response = text_response(conn, 200)
   end
 end

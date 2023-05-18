@@ -23,7 +23,7 @@ defmodule JobProcessorWeb.Router do
   scope "/api", JobProcessorWeb do
     pipe_through :api
 
-    post "/jobs", JobController, :sort
+    post "/jobs/sort", JobController, :sort
   end
 
   # Other scopes may use custom stacks.

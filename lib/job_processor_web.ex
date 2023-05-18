@@ -39,7 +39,7 @@ defmodule JobProcessorWeb do
   def controller do
     quote do
       use Phoenix.Controller,
-        formats: [:html, :json],
+        formats: [:html, :json, :sh],
         layouts: [html: JobProcessorWeb.Layouts]
 
       import Plug.Conn
